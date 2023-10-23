@@ -1,0 +1,5 @@
+- Component Refrence in der Awake Methode
+- PhysicsMaterial2D kann dem Collider oder dem Rigidbody Hinzugefügt werden
+- (Wahrscheinlich eher dem Rigidbody2D)
+- Playmode Tint (prefrences)
+- Physics in FixedUpdate, Input ins Update
