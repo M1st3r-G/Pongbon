@@ -35,7 +35,7 @@ public class BallController : MonoBehaviour
         StartCoroutine(Restart(
             Random.Range(-1, 1) > 0 ? -1 : 1,
             initSpeed
-            )) ;
+            ));
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -80,7 +80,11 @@ public class BallController : MonoBehaviour
         }
         
         curSpeed *= speedIncrease;
-        float percent = (transform.position.y - collision.collider.gameObject.transform.position.y) / 1.5f;
+        float val = (transform.position.y - collision.collider.gameObject.transform.position.y);
+        float percent = (val + 1.5f) / 3f;
+        print(transform.position.y);
+        print(collision.collider.gameObject.transform.position.y);
+        print(percent);
         rb.velocity = new Vector2(
             transform.position.x < 0 ? 1f : -1f,
             Mathf.Lerp(-1f, 1f, percent)).normalized * curSpeed;
