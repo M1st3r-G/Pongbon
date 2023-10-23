@@ -149,7 +149,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 242952190}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: e29df6ca9efff08468b8d1edfaa20f6c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 624142958}
   m_Layer: 0
   m_Name: BatP2
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -578,7 +578,7 @@ GameObject:
   - component: {fileID: 849027451}
   m_Layer: 0
   m_Name: BoundsUpper
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -592,7 +592,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 849027450}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: e29df6ca9efff08468b8d1edfaa20f6c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1066,6 +1066,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initSpeed: 3
+  speedIncrease: 1.05
   p1: {fileID: 0}
   p2: {fileID: 0}
 --- !u!212 &1493438333
@@ -1186,7 +1187,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 6200000, guid: 09177e66105aa8041831757d730df5c7, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1196,7 +1197,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!1 &1687371317
 GameObject:
   m_ObjectHideFlags: 0

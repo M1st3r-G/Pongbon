@@ -9,7 +9,10 @@ public class BallController : MonoBehaviour
     private float initSpeed;
     private Vector3 initPosition;
     private int[] points;
-    
+
+    private float curSpeed;
+    [SerializeField]
+    private float speedIncrease = 1.05f;
     [SerializeField]
     private Text p1;
     [SerializeField]
@@ -18,6 +21,7 @@ public class BallController : MonoBehaviour
     private void Awake()
     {
         points = new int[2];
+        curSpeed = initSpeed;
         rb = GetComponent<Rigidbody2D>();
         initPosition = transform.position;
     }
@@ -61,5 +65,16 @@ public class BallController : MonoBehaviour
         yield return new WaitForSeconds(1f);
         print("Go");
         rb.velocity = new Vector2(-dir, Random.Range(-1f, 1f)).normalized * speed;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.gameObject.CompareTag("Wall")) return;
+        
+        curSpeed *= speedIncrease;
+        float percent = (transform.position.y - collision.collider.gameObject.transform.position.y) / 1.5f;
+        rb.velocity = new Vector2(
+            transform.position.x < 0 ? 1f : -1f,
+            Mathf.Lerp(-1f, 1f, percent)).normalized * curSpeed;
     }
 }
