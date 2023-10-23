@@ -4,6 +4,7 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
     private readonly float speed = 3;
+    public bool isPlayer1;
 
     private void Awake()
     {
@@ -12,6 +13,6 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.velocity = Input.GetAxisRaw("Vertical") * speed * Vector3.up;
+        rb.velocity = Input.GetAxisRaw(isPlayer1 ? "Player1" : "Player2") * speed * Vector3.up;
     }
 }
