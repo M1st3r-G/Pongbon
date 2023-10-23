@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine.UI;
+using TMPro;
 using UnityEngine;
 
 public class BallController : MonoBehaviour
@@ -12,11 +13,14 @@ public class BallController : MonoBehaviour
 
     private float curSpeed;
     [SerializeField]
+    float pushForce = 1;
+    [SerializeField]
     private float speedIncrease = 1.05f;
+    
     [SerializeField]
-    private Text p1;
+    private TextMeshProUGUI p1;
     [SerializeField]
-    private Text p2;
+    private TextMeshProUGUI p2;
 
     private void Awake()
     {
@@ -69,7 +73,11 @@ public class BallController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.gameObject.CompareTag("Wall")) return;
+        if (collision.collider.gameObject.CompareTag("Wall"))
+        {
+            rb.velocity = (rb.velocity + pushForce * (transform.position.y > 0 ? Vector2.down : Vector2.up)).normalized * curSpeed;
+            return;
+        }
         
         curSpeed *= speedIncrease;
         float percent = (transform.position.y - collision.collider.gameObject.transform.position.y) / 1.5f;
