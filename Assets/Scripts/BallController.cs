@@ -1,5 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class BallController : MonoBehaviour
@@ -9,6 +9,11 @@ public class BallController : MonoBehaviour
     private float initSpeed;
     private Vector3 initPosition;
     private int[] points;
+    
+    [SerializeField]
+    private Text p1;
+    [SerializeField]
+    private Text p2;
 
     private void Awake()
     {
@@ -35,12 +40,14 @@ public class BallController : MonoBehaviour
         if(dir == 1)
         {
             points[0] += 1;
+            p1.text = points[0].ToString();
+
         }
         else
         {
             points[1] += 1;
+            p2.text = points[1].ToString();
         }
-        print($"Neuer Punktestand:      {points[0]} | {points[1]}");
     }
 
     private IEnumerator Restart(int dir, float speed)
