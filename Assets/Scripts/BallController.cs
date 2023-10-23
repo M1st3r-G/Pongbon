@@ -68,6 +68,7 @@ public class BallController : MonoBehaviour
         print("Restart in 1...");
         yield return new WaitForSeconds(1f);
         print("Go");
+        curSpeed *= 0.5f;
         rb.velocity = new Vector2(-dir, Random.Range(-1f, 1f)).normalized * speed;
     }
 
@@ -82,9 +83,6 @@ public class BallController : MonoBehaviour
         curSpeed *= speedIncrease;
         float val = (transform.position.y - collision.collider.gameObject.transform.position.y);
         float percent = (val + 1.5f) / 3f;
-        print(transform.position.y);
-        print(collision.collider.gameObject.transform.position.y);
-        print(percent);
         rb.velocity = new Vector2(
             transform.position.x < 0 ? 1f : -1f,
             Mathf.Lerp(-1f, 1f, percent)).normalized * curSpeed;
