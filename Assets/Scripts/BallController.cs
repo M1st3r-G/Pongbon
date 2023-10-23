@@ -6,9 +6,9 @@ public class BallController : MonoBehaviour
 {
     private Rigidbody2D rb;
     [SerializeField]
-    private Vector2 initVelocity;
-    [SerializeField]
+    private float initSpeed;
     private Vector3 initPosition;
+    private int[] points;
 
     private void Awake()
     {
@@ -20,19 +20,26 @@ public class BallController : MonoBehaviour
     {
         StartCoroutine(Restart(
             Random.Range(-1, 1) > 0 ? -1 : 1,
-            rb.velocity.magnitude
-            ));
+            initSpeed
+            )) ;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        print(collision.gameObject.name);
         transform.position = initPosition;
-        StartCoroutine(Restart(
-            (int)Mathf.Sign(rb.velocity.x), 
-            rb.velocity.magnitude
-            ));
+        int dir = (int)Mathf.Sign(rb.velocity.x);
+        StartCoroutine(Restart(dir, rb.velocity.magnitude));
         rb.velocity = Vector2.zero;
+
+        if(dir == 1)
+        {
+            points[0] += 1;
+        }
+        else
+        {
+            points[1] += 1;
+        }
+        print($"Neuer Punktestand: Spieler 1 {points[0]} | Spieler 2 {points[1]}");
     }
 
     private IEnumerator Restart(int dir, float speed)
