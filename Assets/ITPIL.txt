@@ -3,3 +3,6 @@
 - (Wahrscheinlich eher dem Rigidbody2D)
 - Playmode Tint (prefrences)
 - Physics in FixedUpdate, Input ins Update
+
+Desmos Notes: 
+https://www.desmos.com/calculator/ktj9bylhu4

@@ -12,6 +12,7 @@ public class BallController : MonoBehaviour
 
     private void Awake()
     {
+        points = new int[2];
         rb = GetComponent<Rigidbody2D>();
         initPosition = transform.position;
     }
@@ -39,11 +40,12 @@ public class BallController : MonoBehaviour
         {
             points[1] += 1;
         }
-        print($"Neuer Punktestand: Spieler 1 {points[0]} | Spieler 2 {points[1]}");
+        print($"Neuer Punktestand:      {points[0]} | {points[1]}");
     }
 
     private IEnumerator Restart(int dir, float speed)
     {
+        yield return new WaitForEndOfFrame();
         print("Restart in 3...");
         yield return new WaitForSeconds(1f);
         print("Restart in 2...");

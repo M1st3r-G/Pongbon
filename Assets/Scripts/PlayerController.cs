@@ -5,9 +5,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
-    [SerializeField]
     [Range(0, 10)]
-    private float speed;
+    private static readonly float speed = 3;
 
     private void Awake()
     {
