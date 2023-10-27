@@ -8,6 +8,7 @@ public class BallController : MonoBehaviour
     //OuterComponentRefrence
     [SerializeField] private TextMeshProUGUI p1;
     [SerializeField] private TextMeshProUGUI p2;
+    [SerializeField] private TextMeshProUGUI countdown;
     //InnerComponentRefrence
     private Rigidbody2D rb;
 
@@ -15,6 +16,8 @@ public class BallController : MonoBehaviour
     [SerializeField] private float initSpeed;
     [SerializeField] float pushForce = 1;
     [SerializeField] private float speedIncrease = 1.05f;
+    [SerializeField] private float maxSpeed = 10f;
+    [SerializeField] private float speedPenalty = 3f;
     //InnerParams
     private Vector3 initPosition;
     //Temps
@@ -36,9 +39,7 @@ public class BallController : MonoBehaviour
     {
         // Startet das Spiel durch aufrufen der Restart Coroutine mit start Geschwindikeit und (ca.) 50% für die Startseite
         StartCoroutine(Restart(
-            Random.Range(-1, 1) > 0 ? -1 : 1,       // wenn zufallzähl > 0, Ball nach links
-            initSpeed                               // Start geschwindigkeit
-            ));
+            Random.Range(-1, 1) > 0 ? -1 : 1));       // wenn zufallzähl > 0, Ball nach links
     }
 
     // Beim erreichen eines Triggers (dem linken oder rechten Endbereich)
@@ -47,7 +48,7 @@ public class BallController : MonoBehaviour
         transform.position = initPosition;          // Reset Position
         int dir = rb.velocity.x > 0 ? 1 : -1;       // Ermittelt die Richtung
         StartCoroutine(
-            Restart(-dir, rb.velocity.magnitude));  // Restart mit gleicher geschwingikeit aber umgedrehter richtung
+            Restart(-dir));  // Restart mit gleicher geschwingikeit aber umgedrehter richtung
         
         // Fügt dem entsprechenden Spieler Punkte hinzu und Aktualisiert die Anzeige
         if(dir == 1)
@@ -66,12 +67,7 @@ public class BallController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // Wenn es eine Wand ist
-        if (collision.collider.gameObject.CompareTag("Wall"))
-        {
-            // Mehr Geschwundikeit nach unten, damit der sich nicht lange aufhält
-            rb.velocity = (rb.velocity + pushForce * (transform.position.y > 0 ? Vector2.down : Vector2.up)).normalized * curSpeed;
-            return;
-        }
+        if (collision.collider.gameObject.CompareTag("Wall")) return;
         
         // Wenn es keine Wand (sondern ein Spieler ist)
         curSpeed *= speedIncrease;                      // Geschwindigkeit steigt Prozentual an
@@ -91,22 +87,32 @@ public class BallController : MonoBehaviour
     /// <param name="dir">Die Richtung, in die der Ball fliegt, -1 : links; 1: rechts</param>
     /// <param name="speed">Die Geschwindigkeit mit der der Ball weiterfliegt</param>
     /// <returns></returns>
-    private IEnumerator Restart(int dir, float speed)
+    private IEnumerator Restart(int dir)
     {
-        if (!(dir == -1 || dir == 1)) return     // Abbrechen, wenn der Input illegal ist
+        if (!(dir == -1 || dir == 1)) yield break;    // Abbrechen, wenn der Input illegal ist
          rb.velocity = Vector2.zero;             // Hält den Ball an
         //Warten und runterzählen
+        countdown.gameObject.SetActive(true);
         yield return new WaitForEndOfFrame();
-        print("Restart in 3...");
+        countdown.text = "Restart in 3...";
         yield return new WaitForSeconds(1f);
-        print("Restart in 2...");
+        countdown.text = "Restart in 2...";
         yield return new WaitForSeconds(1f);
-        print("Restart in 1...");
+        countdown.text = "Restart in 1...";
         yield return new WaitForSeconds(1f);
-        print("Go");
-        curSpeed *= 0.5f;                       // Der Ball verlangsamt sich etwas
+        countdown.text = "Go";
+        Invoke(nameof(RemoveCountdown), 1f);    // Nach einer Sekude den Countdown entfernen.
+        curSpeed = Mathf.Clamp(                 // Der Ball verlangsamt sich etwas
+            curSpeed - speedPenalty,
+            initSpeed,
+            maxSpeed);                          
         rb.velocity = new Vector2(              // Ein neuer Vektor mit zufälligem Winkel zwischen -45 und 45 Grad
             dir,
-            Random.Range(-1f, 1f)).normalized * speed; // Anpassen der Geschwindigkeit
+            Random.Range(-1f, 1f)).normalized * curSpeed; // Anpassen der Geschwindigkeit
+    }
+
+    private void RemoveCountdown()
+    {
+        countdown.gameObject.SetActive(false);
     }
 }
