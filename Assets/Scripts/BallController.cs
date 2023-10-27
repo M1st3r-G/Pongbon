@@ -14,7 +14,6 @@ public class BallController : MonoBehaviour
 
     //OuterParams
     [SerializeField] private float initSpeed;
-    [SerializeField] float pushForce = 1;
     [SerializeField] private float speedIncrease = 1.05f;
     [SerializeField] private float maxSpeed = 10f;
     [SerializeField] private float speedPenalty = 3f;
